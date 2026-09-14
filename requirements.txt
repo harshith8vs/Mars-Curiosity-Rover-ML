@@ -1,0 +1,34 @@
+# =====================================================================
+# Automated Classification of Martian Surface Images Captured by NASA's Curiosity Rover
+# Project Requirements
+# =====================================================================
+
+# Core Numerical & Data Processing
+numpy>=1.24.0,<=2.5.3
+pandas>=2.0.0,<=3.0.5
+scipy>=1.10.0,<=1.18.1
+
+# Classical Machine Learning
+scikit-learn>=1.3.0,<=1.9.1
+joblib>=1.3.0,<=1.6.0
+
+# Deep Learning (PyTorch & Torchvision)
+torch>=2.0.0,<=2.14.0
+torchvision>=0.15.0,<=0.29.0
+
+# Computer Vision & Image Preprocessing
+opencv-python>=4.8.0,<=5.0.0.93
+pillow>=10.0.0,<=12.3.0
+scikit-image>=0.21.0,<=0.26.0
+
+# Plotting & Evaluation Visualizations
+matplotlib>=3.7.0,<=3.11.2
+seaborn>=0.12.0,<=0.13.2
+
+# Interactive Notebook Environment
+jupyter>=1.0.0
+ipykernel>=6.25.0
+nbformat>=5.9.0
+
+# System & SSL Utilities
+certifi>=2023.7.22

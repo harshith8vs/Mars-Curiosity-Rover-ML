@@ -1,0 +1,14 @@
+{
+  "model_family": "naive_bayes",
+  "winning_config": "NB-2",
+  "model_name": "GaussianNB (Scaled, Uniform Priors)",
+  "representation": "Scaled",
+  "features": 8186,
+  "imbalance_strategy": "Uniform Priors",
+  "validation_accuracy_percent": 12.07,
+  "validation_macro_precision": 0.2597,
+  "validation_macro_recall": 0.2699,
+  "validation_macro_f1": 0.2012,
+  "validation_weighted_f1": 0.1062,
+  "saved_model_path": "saved_models/naive_bayes/NB-2.joblib"
+}

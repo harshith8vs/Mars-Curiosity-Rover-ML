@@ -1,0 +1,77 @@
+{
+  "phase": "Phase 5D \u2014 EfficientNet-B3 Baseline",
+  "timestamp": "2026-09-13 18:28:13",
+  "device": "mps",
+  "random_seed": 42,
+  "dataset": {
+    "train_samples": 3746,
+    "val_samples": 1640,
+    "test_samples": 1305,
+    "total_samples": 6691,
+    "active_classes": 24,
+    "zero_instance_class_id": 22
+  },
+  "class_weights": {
+    "apxs": 5.202777862548828,
+    "apxs cal target": 26.01388931274414,
+    "chemcam cal target": 10.405555725097656,
+    "chemin inlet open": 3.3209218978881836,
+    "drill": 8.214912414550781,
+    "drill holes": 4.335648059844971,
+    "drt front": 39.02083206176758,
+    "drt side": 19.51041603088379,
+    "ground": 0.06661687046289444,
+    "horizon": 0.6968005895614624,
+    "inlet": 0.9459595680236816,
+    "mahli": 11.148809432983398,
+    "mahli cal target": 4.877604007720947,
+    "mastcam": 4.335648059844971,
+    "mastcam cal target": 1.5453795194625854,
+    "observation tray": 1.83627450466156,
+    "portion box": 8.671296119689941,
+    "portion tube": 2.1381278038024902,
+    "portion tube opening": 19.51041603088379,
+    "rems uv sensor": 13.00694465637207,
+    "rover rear deck": 2.7383041381835938,
+    "scoop": 0.9402610659599304,
+    "turret": 0.8768726587295532,
+    "wheel": 2.2620773315429688
+  },
+  "model": {
+    "architecture": "EfficientNet-B3",
+    "pretrained": true,
+    "checkpoint": "EfficientNet_B3_Weights.IMAGENET1K_V1",
+    "input_resolution": [
+      300,
+      300
+    ],
+    "in_features": 1536,
+    "num_classes": 24,
+    "dropout_rate": 0.3,
+    "total_parameters": 10733120,
+    "trainable_parameters": 10733120,
+    "frozen_parameters": 0
+  },
+  "training": {
+    "epochs": 15,
+    "batch_size": 32,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "scheduler": "CosineAnnealingLR(eta_min=1e-6)",
+    "loss_function": "CrossEntropyLoss(training_balanced_weights)"
+  },
+  "checkpoint_selection": {
+    "criterion": "Validation Macro-F1 (primary), Validation Accuracy (secondary), earlier epoch (tie-breaker)",
+    "best_epoch": 6,
+    "val_macro_f1": 0.7417060137582471,
+    "val_accuracy": 97.3780487804878
+  },
+  "final_test_results": {
+    "accuracy": 80.61302681992338,
+    "macro_f1": 0.7083245142433977,
+    "macro_precision": 0.7306802283797377,
+    "macro_recall": 0.7486605248220068,
+    "weighted_f1": 0.8287567295242384
+  }
+}

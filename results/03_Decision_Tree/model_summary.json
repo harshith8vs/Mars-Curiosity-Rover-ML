@@ -1,0 +1,14 @@
+{
+  "model_family": "decision_tree",
+  "winning_config": "DT-2",
+  "model_name": "DecisionTree (Unscaled, Balanced)",
+  "representation": "Unscaled",
+  "features": 8186,
+  "imbalance_strategy": "Balanced",
+  "validation_accuracy_percent": 15.3,
+  "validation_macro_precision": 0.334,
+  "validation_macro_recall": 0.3075,
+  "validation_macro_f1": 0.269,
+  "validation_weighted_f1": 0.1241,
+  "saved_model_path": "saved_models/decision_tree/DT-2.joblib"
+}

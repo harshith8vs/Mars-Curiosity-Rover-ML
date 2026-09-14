@@ -1,0 +1,15 @@
+{
+  "model_key": "random_forest",
+  "config_id": "RF-2",
+  "display_name": "RandomForest (Unscaled, Balanced)",
+  "split": "test",
+  "num_samples": 1305,
+  "accuracy": 50.421455938697314,
+  "macro_f1": 0.44925550934194247,
+  "macro_precision": 0.5766982825701036,
+  "macro_recall": 0.48884725358398046,
+  "weighted_f1": 0.48090274762252816,
+  "elapsed_seconds": 0.04984903335571289,
+  "benchmark_acc": 66.04,
+  "benchmark_macro_f1": 0.5993
+}

@@ -1,0 +1,15 @@
+{
+  "model_key": "naive_bayes",
+  "config_id": "NB-2",
+  "display_name": "GaussianNB (Scaled, Uniform Priors)",
+  "split": "test",
+  "num_samples": 1305,
+  "accuracy": 18.007662835249043,
+  "macro_f1": 0.22834810200703134,
+  "macro_precision": 0.3577746304020063,
+  "macro_recall": 0.24537077061293322,
+  "weighted_f1": 0.18481439757576795,
+  "elapsed_seconds": 0.2641170024871826,
+  "benchmark_acc": 12.07,
+  "benchmark_macro_f1": 0.2012
+}

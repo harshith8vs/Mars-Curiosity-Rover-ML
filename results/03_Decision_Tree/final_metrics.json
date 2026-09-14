@@ -1,0 +1,15 @@
+{
+  "model_key": "decision_tree",
+  "config_id": "DT-2",
+  "display_name": "DecisionTree (Unscaled, Balanced)",
+  "split": "test",
+  "num_samples": 1305,
+  "accuracy": 25.440613026819925,
+  "macro_f1": 0.25512567246624357,
+  "macro_precision": 0.29566422079932764,
+  "macro_recall": 0.29966383553755344,
+  "weighted_f1": 0.250691815373311,
+  "elapsed_seconds": 0.0024492740631103516,
+  "benchmark_acc": 15.3,
+  "benchmark_macro_f1": 0.269
+}

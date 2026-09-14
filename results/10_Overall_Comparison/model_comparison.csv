@@ -1,0 +1,10 @@
+Model,Family,Evaluation Split,Accuracy (%),Macro-Precision,Macro-Recall,Macro-F1,Weighted-F1,Benchmark Accuracy (%),Benchmark Macro-F1,Champion
+"KNN (Scaled+PCA, Distance)",Classical ML,val,50.85,0.7113,0.6688,0.6613,0.5356,50.85,0.6613,
+"GaussianNB (Scaled, Uniform Priors)",Classical ML,val,12.07,0.2597,0.2699,0.2012,0.1062,12.07,0.2012,
+"DecisionTree (Unscaled, Balanced)",Classical ML,val,15.3,0.334,0.3075,0.269,0.1241,15.3,0.269,
+"RandomForest (Unscaled, Balanced)",Classical ML,val,66.04,0.6646,0.6235,0.5993,0.6156,66.04,0.5993,
+"SVM (Scaled+PCA, Balanced)",Classical ML,val,67.01,0.674,0.6509,0.6393,0.6048,67.01,0.6393,
+MRSCAtt (Spatial & Channel Attention),Deep Learning,test,64.29,0.6461,0.6553,0.5851,0.6515,64.29,0.5851,
+ViT-B/16 (Vision Transformer),Deep Learning,test,73.26,0.7182,0.6988,0.6536,0.7505,73.26,0.6536,
+ResNet-50 (Deep Learning Baseline),Deep Learning,test,77.78,0.6886,0.7273,0.6631,0.7937,77.78,0.6631,
+EfficientNet-B3 (Champion Model),Deep Learning,test,80.61,0.7307,0.7487,0.7083,0.8288,80.61,0.7083,★ BEST MODEL ★

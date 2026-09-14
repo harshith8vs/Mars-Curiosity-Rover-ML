@@ -1,0 +1,14 @@
+{
+  "model_family": "random_forest",
+  "winning_config": "RF-2",
+  "model_name": "RandomForest (Unscaled, Balanced)",
+  "representation": "Unscaled",
+  "features": 8186,
+  "imbalance_strategy": "Balanced",
+  "validation_accuracy_percent": 66.04,
+  "validation_macro_precision": 0.6646,
+  "validation_macro_recall": 0.6235,
+  "validation_macro_f1": 0.5993,
+  "validation_weighted_f1": 0.6156,
+  "saved_model_path": "saved_models/random_forest/RF-2.joblib"
+}

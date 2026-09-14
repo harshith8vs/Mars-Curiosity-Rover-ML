@@ -1,0 +1,26 @@
+{
+  "model": "MRSCAtt (Mars Rover Spatial & Channel Attention CNN)",
+  "best_epoch": 3,
+  "total_epochs": 20,
+  "training_time_seconds": 896.2932369709015,
+  "validation_metrics": {
+    "accuracy": 86.28048780487805,
+    "macro_f1": 0.6801357873817517,
+    "macro_precision": 0.688067923788703,
+    "macro_recall": 0.7170809642824499,
+    "weighted_f1": 0.8693322933698124,
+    "loss": 1.0002963979069779
+  },
+  "test_metrics": {
+    "accuracy": 64.29118773946361,
+    "macro_f1": 0.5851452703313065,
+    "macro_precision": 0.6460960546503149,
+    "macro_recall": 0.6552511281484551,
+    "weighted_f1": 0.6514757357966964,
+    "weighted_precision": 0.8174118940464334,
+    "weighted_recall": 0.6429118773946361,
+    "loss": 2.128383056048689,
+    "total_inference_time_s": 7.4960691928863525,
+    "ms_per_sample": 5.744114324050845
+  }
+}

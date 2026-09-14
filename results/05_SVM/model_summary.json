@@ -1,0 +1,14 @@
+{
+  "model_family": "svm",
+  "winning_config": "SVM-4",
+  "model_name": "SVM (Scaled+PCA, Balanced)",
+  "representation": "Scaled + PCA",
+  "features": 100,
+  "imbalance_strategy": "Balanced",
+  "validation_accuracy_percent": 67.01,
+  "validation_macro_precision": 0.674,
+  "validation_macro_recall": 0.6509,
+  "validation_macro_f1": 0.6393,
+  "validation_weighted_f1": 0.6048,
+  "saved_model_path": "saved_models/svm/SVM-4.joblib"
+}

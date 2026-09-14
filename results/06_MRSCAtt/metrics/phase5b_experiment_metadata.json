@@ -1,0 +1,52 @@
+{
+  "phase": "Phase 5B \u2014 MRSCAtt (Mars Rover Spatial & Channel Attention CNN)",
+  "timestamp": "2026-09-13 15:34:01",
+  "device": "mps",
+  "random_seed": 42,
+  "dataset": {
+    "train_samples": 3746,
+    "val_samples": 1640,
+    "test_samples": 1305,
+    "total_samples": 6691,
+    "active_classes": 24,
+    "zero_instance_class_id": 22
+  },
+  "model": {
+    "architecture": "MRSCAtt",
+    "backbone": "ResNet-50",
+    "pretrained": true,
+    "checkpoint": "ResNet50_Weights.DEFAULT (IMAGENET1K_V1)",
+    "attention_block": "ChannelSpatialBlock (Separate avg/max branches + 7x7 spatial conv)",
+    "input_resolution": [
+      224,
+      224
+    ],
+    "num_classes": 24,
+    "dropout_rate": 0.2,
+    "total_parameters": 24614588,
+    "trainable_parameters": 16071292,
+    "frozen_parameters": 8543296,
+    "freezing_configuration": "conv1, bn1, layer1..3 frozen; layer4, cbam, fc trainable"
+  },
+  "training": {
+    "epochs": 20,
+    "batch_size": 64,
+    "optimizer": "Adam",
+    "learning_rate": 0.0001,
+    "loss_function": "CrossEntropyLoss(training_balanced_weights)",
+    "freezing": "conv1, bn1, layer1..3 frozen; layer4, cbam, fc trainable"
+  },
+  "checkpoint_selection": {
+    "criterion": "Validation Macro-F1 (primary), Validation Accuracy (secondary)",
+    "best_epoch": 3,
+    "val_macro_f1": 0.6801357873817517,
+    "val_accuracy": 86.28048780487805
+  },
+  "final_test_results": {
+    "accuracy": 64.29118773946361,
+    "macro_f1": 0.5851452703313065,
+    "macro_precision": 0.6460960546503149,
+    "macro_recall": 0.6552511281484551,
+    "weighted_f1": 0.6514757357966964
+  }
+}

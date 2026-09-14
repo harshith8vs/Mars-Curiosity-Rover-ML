@@ -1,0 +1,15 @@
+{
+  "model_key": "svm",
+  "config_id": "SVM-4",
+  "display_name": "SVM (Scaled+PCA, Balanced)",
+  "split": "test",
+  "num_samples": 1305,
+  "accuracy": 48.888888888888886,
+  "macro_f1": 0.5134222503173741,
+  "macro_precision": 0.6407333122738187,
+  "macro_recall": 0.5052831352695195,
+  "weighted_f1": 0.45300541109723386,
+  "elapsed_seconds": 0.3358447551727295,
+  "benchmark_acc": 67.01,
+  "benchmark_macro_f1": 0.6393
+}
