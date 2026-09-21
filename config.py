@@ -92,7 +92,24 @@ PHASE5D_MODELS_DIR = MODELS_EFFICIENTNET_B3_DIR
 # Dataset constants
 NUM_EXPECTED_CLASSES = 25
 CLASS_IDS_RANGE = range(0, 25)
-ZERO_INSTANCE_CLASS_ID = 22  # Class 22 ("sun") has 0 samples in official calibrated splits
+
+# The one globally inactive NASA class: 0 samples in ALL official splits.
+ZERO_INSTANCE_CLASS_ID = 22  # "sun"
+
+# 24 active NASA class IDs (excludes class 22 "sun").
+# Used by classical ML models (raw NASA IDs as labels).
+ACTIVE_CLASS_IDS = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 23, 24
+]
+NUM_ACTIVE_CLASSES = 24
+
+# NOTE: NASA IDs 5 ("drill holes") and 23 ("turret") are ACTIVE classes but
+# have zero ground-truth samples in the official TEST split (1,305 images).
+# They must NOT be removed from the Macro-F1 denominator.
+# zero_division=0 assigns F1=0.0 to them; the average is over all 24 classes.
+ZERO_SUPPORT_IN_TEST = [5, 23]  # Active but 0 test samples
 
 # Standard image resolution (browse images)
 STANDARD_IMAGE_WIDTH = 256

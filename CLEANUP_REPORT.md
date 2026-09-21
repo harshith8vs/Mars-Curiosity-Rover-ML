@@ -121,7 +121,7 @@ The following files were removed after thorough dependency auditing and confirma
 - `deep_learning/` (Dataset, transforms, models, training, evaluation, utils)
 - `preprocessing/` (Image processing, feature extraction, EDA)
 - `features/` (Pre-extracted feature matrices for train, val, and test)
-- `saved_models/` (All 22 canonical model checkpoints: `.joblib` and `.pth`)
+- `saved_models/` (Classical `.joblib` checkpoints; deep learning `.pth` files are LOCAL ONLY and excluded from the repository via `.gitignore` due to their large size)
 - `notebooks/` (10 curated research notebooks)
 - `scripts/` (Automated batch execution utilities)
 - `results/` (Clean model-wise hierarchy: `01_KNN` through `10_Overall_Comparison`)
@@ -330,8 +330,8 @@ Mars ML models/
 | 8 | **ResNet-50** | Deep Learning | Test Split | 77.78% | **77.78%** | 0.6631 | **0.6631** | 0.00% / 0.0000 | **Exact Match** |
 | 9 | **EfficientNet-B3** | Deep Learning | Test Split | 80.61% | **80.61%** | 0.7083 | **0.7083** | 0.00% / 0.0000 | **Exact Match** |
 
-> [!NOTE]
-> All 9 models reproduced the baseline benchmark metrics **with 100% exact numerical precision** (0.00% accuracy delta, 0.0000 Macro-F1 delta). This mathematically proves that no data leakage, preprocessing shifts, or model corruption occurred during refactoring.
+> [!IMPORTANT]
+> The benchmark metrics above were computed using the **canonical 24-class protocol** with `labels=ACTIVE_NASA_CLASS_IDS` (or `ACTIVE_INDICES` for DL models). Class 22 ("sun") is globally excluded. NASA IDs 5 and 23 are active but have 0 test samples — they count in the 24-class Macro-F1 denominator with F1=0.0.
 
 ### Methodological Notes on Evaluation Protocol
 
@@ -360,15 +360,17 @@ From `results/10_Overall_Comparison/model_comparison.csv`:
 
 | Rank | Model | Family | Split | Accuracy (%) | Macro-Precision | Macro-Recall | Macro-F1 | Weighted-F1 | Notes |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---|
-| 1 | **EfficientNet-B3** | Deep Learning | test | **80.61%** | 0.7307 | 0.7487 | **0.7083** | 0.8288 | **★ Best Performing Model (Champion) ★** |
-| 2 | **ResNet-50** | Deep Learning | test | **77.78%** | 0.6886 | 0.7273 | **0.6631** | 0.7937 | Deep Learning Baseline |
-| 3 | **ViT-B/16** | Deep Learning | test | **73.26%** | 0.7182 | 0.6988 | **0.6536** | 0.7505 | Vision Transformer (196 Patches) |
-| 4 | **SVM** | Classical ML | val | **67.01%** | 0.6740 | 0.6509 | **0.6393** | 0.6048 | Champion Classical Classifier (PCA-100) |
-| 5 | **Random Forest** | Classical ML | val | **66.04%** | 0.6646 | 0.6235 | **0.5993** | 0.6156 | Ensemble of 100 Balanced Trees |
-| 6 | **MRSCAtt** | Deep Learning | test | **64.29%** | 0.6461 | 0.6553 | **0.5851** | 0.6515 | Spatial & Channel Attention CNN |
-| 7 | **KNN** | Classical ML | val | **50.85%** | 0.7113 | 0.6688 | **0.6613** | 0.5356 | Distance-Weighted Nearest Neighbors |
-| 8 | **Decision Tree** | Classical ML | val | **15.30%** | 0.3340 | 0.3075 | **0.2690** | 0.1241 | Balanced Tree Baseline |
-| 9 | **Naive Bayes** | Classical ML | val | **12.07%** | 0.2597 | 0.2699 | **0.2012** | 0.1062 | GaussianNB with Uniform Priors |
+| 1 | **EfficientNet-B3** | Deep Learning | TEST | **80.61%** | 0.7307 | 0.7487 | **0.7083** | 0.8288 | **★ Champion — Best Macro-F1 & Accuracy** |
+| 2 | **ResNet-50** | Deep Learning | TEST | 77.78% | 0.6886 | 0.7273 | 0.6631 | 0.7937 | Deep Learning Baseline |
+| 3 | **ViT-B/16** | Deep Learning | TEST | 73.26% | 0.7182 | 0.6988 | 0.6536 | 0.7505 | Vision Transformer |
+| 4 | **MRSCAtt** | Deep Learning | TEST | 64.29% | 0.6461 | 0.6553 | 0.5851 | 0.6515 | Spatial & Channel Attention CNN |
+| 5 | **KNN** | Classical ML | TEST | 47.20% | 0.6807 | 0.4852 | 0.5182 | 0.4386 | Scaled + PCA-100, Distance Weighted |
+| 6 | **SVM** | Classical ML | TEST | 48.89% | 0.6140 | 0.4842 | 0.4920 | 0.4530 | RBF, PCA-100, Balanced |
+| 7 | **Random Forest** | Classical ML | TEST | 50.42% | 0.5527 | 0.4685 | 0.4305 | 0.4809 | 100 Balanced Trees |
+| 8 | **Decision Tree** | Classical ML | TEST | 25.44% | 0.2957 | 0.2997 | 0.2551 | 0.2507 | Balanced Weights |
+| 9 | **Naive Bayes** | Classical ML | TEST | 18.01% | 0.3280 | 0.2249 | 0.2093 | 0.1848 | GaussianNB Uniform Priors |
+
+*All metrics from `results/10_Overall_Comparison/final_test_comparison.csv` — canonical 24-class Phase B evaluation.*
 
 ---
 
@@ -379,3 +381,39 @@ From `results/10_Overall_Comparison/model_comparison.csv`:
 4. **ResNet-50 Redundant Prediction Arrays:** Removed duplicate array copies in `results/08_ResNet50/metrics/`, retaining canonical files in `results/08_ResNet50/predictions/` and metadata in `results/08_ResNet50/metadata.json`.
 5. **Pruned Superseded Comparison CSVs:** Pruned 7 intermediate pairwise CSVs from `results/10_Overall_Comparison/`, retaining canonical `model_comparison.csv` and `model_comparison.png`.
 6. **Removed Temporary Audit Manifests:** Pruned `pre_cleanup_manifest.json`, `post_cleanup_results_manifest.json`, and `pre_cleanup_tree.txt`.
+
+---
+
+## 21. September 2026 Audit Corrections
+
+A secondary audit identified and corrected the following issues:
+
+### Canonical Metric Protocol
+- **Problem:** The original code used sklearn's default macro-averaging (which silently drops zero-support classes from the denominator). This inflated Macro-F1 for classical models.
+- **Fix:** All metrics now use `compute_canonical_metrics()` in `evaluation/metrics.py` with `labels=ACTIVE_NASA_CLASS_IDS` (classical) or `labels=ACTIVE_INDICES` (DL). Class 22 excluded; IDs 5 and 23 included at F1=0.0.
+
+### Single Source of Truth: evaluation/mapping.py
+- **Added** `evaluation/mapping.py` as the canonical class mapping module. All metric code, classic pipeline, deep learning pipeline, and tests import from this module.
+
+### Evaluation Split Asymmetry Resolved (Phase A / Phase B)
+- **Problem:** The previous benchmark compared classical models on validation metrics vs. deep learning on test metrics in the same table.
+- **Fix:** Adopted a strict two-phase protocol. The final Phase B table (`results/10_Overall_Comparison/final_test_comparison.csv`) evaluates ALL 9 models on the TEST split using the same canonical protocol.
+
+### deep_learning/training.py Architecture Issues
+- **Added** missing `import copy`.
+- **Replaced** hardcoded `model.fc` access with architecture-aware helpers: `get_classifier_module()`, `freeze_backbone()`, `unfreeze_backbone()`, `get_parameter_groups()`.
+- **Fixed** BatchNorm freezing: frozen BN layers are set to eval() during backbone-frozen stage.
+- **Fixed** checkpoint naming: parameterized to `best_{model_type}.pth` / `last_{model_type}.pth`.
+- **Removed** hardcoded "RESNET-50" log messages from the generic pipeline.
+
+### Repository Lightweightness Policy
+- Checkpoint files (`.pth`, `.joblib`) are now explicitly documented as gitignored.
+- `recompute_from_predictions()` is the primary verification path (no checkpoints required).
+- `--verify-results` and `--compare` CLI modes added to `main.py`.
+
+### Automated Test Suite Added
+- `tests/test_dataset_and_metrics.py` with 12 invariants and 52 parametrized test cases.
+- All tests pass checkpoint-free using stored prediction arrays.
+
+### Feature Description Correction
+- README previously listed HSV color histograms and Hu moments as features. The actual implementation uses RGB histograms, GLCM, and HOG. Documentation corrected.

@@ -44,16 +44,23 @@ def status_fail(msg: str) -> str:
 # Official Benchmark Table & Display
 # =====================================================================
 
+# NOTE on evaluation protocol:
+# Phase A (Model Selection): Classical ML config tuned on VALIDATION split.
+#   Validation metrics shown in Phase A only; these are NOT the final comparison metrics.
+# Phase B (Final Cross-Model Comparison): ALL 9 models evaluated on TEST split.
+#   Use --compare or scripts/compare_all_models.py to display Phase B results.
+# Canonical 24-class Macro-F1: class 22 ('sun') excluded, IDs 5 and 23 are active
+# but have 0 test samples; they count in the denominator with F1=0.0.
 OFFICIAL_BENCHMARK = [
-    {"family": "Classical ML", "model": "KNN", "config": "KNN-4", "metric_split": "Validation", "accuracy": 50.85, "macro_f1": 0.6613, "note": "Champion Classical"},
-    {"family": "Classical ML", "model": "Naive Bayes", "config": "NB-2", "metric_split": "Validation", "accuracy": 12.07, "macro_f1": 0.2012, "note": "GaussianNB Baseline"},
-    {"family": "Classical ML", "model": "Decision Tree", "config": "DT-2", "metric_split": "Validation", "accuracy": 15.30, "macro_f1": 0.2690, "note": "Balanced Weights"},
-    {"family": "Classical ML", "model": "Random Forest", "config": "RF-2", "metric_split": "Validation", "accuracy": 66.04, "macro_f1": 0.5993, "note": "Balanced Trees"},
-    {"family": "Classical ML", "model": "SVM", "config": "SVM-4", "metric_split": "Validation", "accuracy": 67.01, "macro_f1": 0.6393, "note": "RBF + PCA + Balanced"},
-    {"family": "Deep Learning", "model": "MRSCAtt", "config": "Attention-CNN", "metric_split": "Test Split", "accuracy": 64.29, "macro_f1": 0.5851, "note": "Spatial & Channel Attention"},
-    {"family": "Deep Learning", "model": "ViT-B/16", "config": "196 Patches", "metric_split": "Test Split", "accuracy": 73.26, "macro_f1": 0.6536, "note": "Vision Transformer"},
-    {"family": "Deep Learning", "model": "ResNet-50", "config": "224x224 RGB", "metric_split": "Test Split", "accuracy": 77.78, "macro_f1": 0.6631, "note": "Deep Learning Baseline"},
-    {"family": "Deep Learning", "model": "EfficientNet-B3", "config": "300x300 RGB", "metric_split": "Test Split", "accuracy": 80.61, "macro_f1": 0.7083, "note": "★ BEST PERFORMING MODEL ★"},
+    {"family": "Classical ML", "model": "KNN",            "config": "KNN-4",       "metric_split": "Test",  "accuracy": 47.20, "macro_f1": 0.5182, "note": "Canonical 24-class | Phase B TEST"},
+    {"family": "Classical ML", "model": "Naive Bayes",    "config": "NB-2",        "metric_split": "Test",  "accuracy": 18.01, "macro_f1": 0.2093, "note": "Canonical 24-class | Phase B TEST"},
+    {"family": "Classical ML", "model": "Decision Tree",  "config": "DT-2",        "metric_split": "Test",  "accuracy": 25.44, "macro_f1": 0.2551, "note": "Canonical 24-class | Phase B TEST"},
+    {"family": "Classical ML", "model": "Random Forest",  "config": "RF-2",        "metric_split": "Test",  "accuracy": 50.42, "macro_f1": 0.4305, "note": "Canonical 24-class | Phase B TEST"},
+    {"family": "Classical ML", "model": "SVM",            "config": "SVM-4",       "metric_split": "Test",  "accuracy": 48.89, "macro_f1": 0.4920, "note": "Canonical 24-class | Phase B TEST"},
+    {"family": "Deep Learning", "model": "MRSCAtt",       "config": "Attention-CNN","metric_split": "Test",  "accuracy": 64.29, "macro_f1": 0.5851, "note": "Spatial & Channel Attention"},
+    {"family": "Deep Learning", "model": "ViT-B/16",      "config": "196 Patches", "metric_split": "Test",  "accuracy": 73.26, "macro_f1": 0.6536, "note": "Vision Transformer"},
+    {"family": "Deep Learning", "model": "ResNet-50",     "config": "224x224 RGB", "metric_split": "Test",  "accuracy": 77.78, "macro_f1": 0.6631, "note": "Deep Learning Baseline"},
+    {"family": "Deep Learning", "model": "EfficientNet-B3","config": "300x300 RGB","metric_split": "Test",  "accuracy": 80.61, "macro_f1": 0.7083, "note": "★ BEST PERFORMING MODEL ★"},
 ]
 
 
@@ -288,15 +295,18 @@ class DatasetVerifier:
 # Model evaluation
 
 def evaluate_single_model(model_name: str, split: str = "test") -> None:
-    """Evaluates a single model specified by name."""
+    """
+    Evaluate a single model on the requested split using stored prediction arrays
+    (checkpoint-free). For Phase B comparison use split='test' (default).
+    """
     clean_name = model_name.lower().replace("-", "_").replace(" ", "_")
     classical_names = ["knn", "naive_bayes", "decision_tree", "random_forest", "svm"]
     dl_names = ["resnet50", "mrscatt", "vit", "efficientnet_b3", "efficientnet"]
 
     if clean_name in classical_names:
         from models.classical_pipeline import classical_pipeline
-        eval_split = "val" if split == "val" else "val"  # classical benchmark is validated on validation split
-        print(f"\nEvaluating Classical Model: {model_name} on {eval_split} split...")
+        eval_split = split  # use the requested split (default: test for Phase B)
+        print(f"\nLoading saved predictions for Classical Model: {model_name} ({eval_split} split)...")
         res = classical_pipeline.evaluate_model(clean_name, split=eval_split)
         print("-" * 65)
         print(f" Model           : {res['display_name']} ({res['config_id']})")
@@ -406,17 +416,21 @@ def generate_overall_comparison(results: List[Dict[str, Any]]) -> None:
 
 
 def evaluate_all_models(regenerate_artifacts: bool = False) -> None:
-    """Evaluates all 9 models and prints comparative benchmark report."""
+    """
+    Evaluate all 9 models using stored prediction arrays (checkpoint-free).
+    Phase B: ALL models evaluated on the TEST split for cross-model comparison.
+    """
     print("\n" + "=" * 90)
-    mode_desc = "REGENERATING ALL ARTIFACTS & EVALUATING" if regenerate_artifacts else "EXECUTING BENCHMARK EVALUATION"
+    mode_desc = "REGENERATING ALL ARTIFACTS & EVALUATING" if regenerate_artifacts else "PHASE B — FINAL TEST EVALUATION"
     print(f"{Colors.BOLD}{Colors.CYAN} {mode_desc} ACROSS ALL 9 MODELS{Colors.RESET}")
+    print(f"{Colors.CYAN} (Using stored prediction arrays — no checkpoint files required){Colors.RESET}")
     print("=" * 90)
 
     from models.classical_pipeline import classical_pipeline
     from deep_learning.training import dl_pipeline
 
-    print(f"Evaluating 5 Classical Machine Learning models on validation features...")
-    classical_results = classical_pipeline.evaluate_all(split="val", generate_artifacts=regenerate_artifacts)
+    print(f"Loading stored predictions for 5 Classical ML models (test split)...")
+    classical_results = classical_pipeline.verify_all_from_predictions(split="test")
 
     print(f"Evaluating 4 Deep Learning models on official NASA test set (1,305 images)...")
     dl_results = dl_pipeline.evaluate_all(fast=(not regenerate_artifacts), generate_artifacts=regenerate_artifacts)
@@ -475,10 +489,12 @@ def main():
 """
     )
 
-    parser.add_argument("--benchmark", action="store_true", help="Display official academic benchmark comparison table")
+    parser.add_argument("--benchmark", action="store_true", help="Display official 9-model comparison table (Phase B canonical TEST metrics)")
     parser.add_argument("--verify-dataset", action="store_true", help="Run comprehensive dataset and split integrity verification")
-    parser.add_argument("--evaluate-all", action="store_true", help="Evaluate all 9 models and verify against recorded benchmark")
-    parser.add_argument("--run-all", "--regenerate-results", dest="regenerate_results", action="store_true", help="Execute all 9 models and generate fresh results/artifacts")
+    parser.add_argument("--evaluate-all", action="store_true", help="Evaluate all 9 models on TEST split (Phase B, checkpoint-free from stored predictions)")
+    parser.add_argument("--verify-results", action="store_true", help="Checkpoint-free: recompute canonical metrics from stored prediction arrays for all 9 models")
+    parser.add_argument("--compare", action="store_true", help="Display final TEST comparison table (runs scripts/compare_all_models.py)")
+    parser.add_argument("--run-all", "--regenerate-results", dest="regenerate_results", action="store_true", help="Execute all 9 models and generate fresh results/artifacts (requires checkpoint files)")
     parser.add_argument("--model", type=str, default=None, help="Target model (knn, naive_bayes, decision_tree, random_forest, svm, resnet50, mrscatt, vit, efficientnet_b3)")
     parser.add_argument("--mode", type=str, default="evaluate", choices=["evaluate", "train"], help="Operation mode (evaluate or train)")
     parser.add_argument("--split", type=str, default="test", choices=["train", "val", "test"], help="Split for evaluation (default: test)")
@@ -489,6 +505,30 @@ def main():
         verifier = DatasetVerifier()
         success = verifier.run_all()
         sys.exit(0 if success else 1)
+
+    if args.verify_results:
+        # Checkpoint-free result verification using stored prediction arrays
+        from models.classical_pipeline import classical_pipeline
+        from deep_learning.training import dl_pipeline
+        print("\n" + "=" * 72)
+        print(" VERIFY RESULTS: Recomputing canonical metrics from stored predictions")
+        print(" (No model checkpoint files required)")
+        print("=" * 72)
+        for res in classical_pipeline.verify_all_from_predictions(split="test"):
+            print(f"  {res['display_name']:<32}  "
+                  f"Acc={res['accuracy']:6.2f}%  Macro-F1={res['macro_f1']:.4f}")
+        for res in dl_pipeline.evaluate_all(fast=True):
+            print(f"  {res['display_name']:<32}  "
+                  f"Acc={res['accuracy']:6.2f}%  Macro-F1={res['macro_f1']:.4f}")
+        print("=" * 72 + "\n")
+        return
+
+    if args.compare:
+        # Run the canonical cross-model comparison script
+        import subprocess
+        compare_script = Path(__file__).parent / "scripts" / "compare_all_models.py"
+        subprocess.run([sys.executable, str(compare_script)], check=True)
+        return
 
     if args.regenerate_results:
         evaluate_all_models(regenerate_artifacts=True)

@@ -1,0 +1,10 @@
+rank,key,model,category,n_test_samples,accuracy_pct,macro_f1,macro_precision,macro_recall,weighted_f1,label_space
+1,knn,KNN (Scaled+PCA),Classical,1305,47.2031,0.518208,0.680744,0.485247,0.4386,nasa
+2,naive_bayes,Naive Bayes (Scaled),Classical,1305,18.0077,0.209319,0.32796,0.224923,0.184814,nasa
+3,decision_tree,Decision Tree (Balanced),Classical,1305,25.4406,0.255126,0.295664,0.299664,0.250692,nasa
+4,random_forest,Random Forest (Balanced),Classical,1305,50.4215,0.430537,0.552669,0.468479,0.480903,nasa
+5,svm,"SVM (Scaled+PCA, Balanced)",Classical,1305,48.8889,0.49203,0.614036,0.48423,0.453005,nasa
+6,mrscatt,MRSCAtt (Attention),Deep Learning,1305,64.2912,0.585145,0.646096,0.655251,0.651476,active_index
+7,vit,ViT-B/16 (Transformer),Deep Learning,1305,73.2567,0.653649,0.718214,0.698823,0.750511,active_index
+8,resnet50,ResNet-50 (Baseline),Deep Learning,1305,77.7778,0.66306,0.68863,0.727336,0.79374,active_index
+9,efficientnet_b3,EfficientNet-B3 (Champion),Deep Learning,1305,80.613,0.708325,0.73068,0.748661,0.828757,active_index
