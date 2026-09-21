@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+
+:root {
+  /* Stitch Color System */
+  --color-mars: #F26419;
+  --color-mars-light: #FFB597;
+  --color-amber: #D29922;
+  --color-green: #238636;
+  --color-green-bright: #2EA043;
+  --color-obsidian: #090B0E;
+  --color-charcoal: #0F1318;
+  --color-surface: #161B22;
+  --color-surface-hover: #1C2129;
+  --border-hairline: #222A35;
+  --border-structural: #30363D;
+  --color-error: #FF716C;
+
+  /* Aliases matching Stitch */
+  --bg-primary: #090B0E;
+  --bg-secondary: #0F1318;
+  --bg-card: #161B22;
+  --bg-card-hover: #1C2129;
+  --border-subtle: #222A35;
+  --border-medium: #30363D;
+  --border-bright: #484F58;
+
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted: #6E7681;
+  --text-dim: #484F58;
+
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
+
+  --transition-fast: 120ms ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-obsidian);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Utility Classes */
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Subtle Aerospace Workstation Grid (low-contrast, strictly no blue/purple) */
+.aerospace-grid-bg {
+  background-color: #090B0E;
+  background-image: 
+    linear-gradient(to right, rgba(48, 54, 61, 0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(48, 54, 61, 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Technical Panels */
+.technical-panel {
+  background-color: var(--color-surface);
+  border: 1px solid var(--border-structural);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.technical-panel-header {
+  padding: 8px 12px;
+  background-color: var(--color-charcoal);
+  border-bottom: 1px solid var(--border-hairline);
+  display: flex;
+  align-items: center;
+  justifyContent: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Reticle / Viewport Frame */
+.reticle-container {
+  position: relative;
+  overflow: hidden;
+  background: #050709;
+  border: 1px solid var(--border-structural);
+}
+
+.reticle-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--color-mars);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.reticle-corner-tl {
+  top: 6px;
+  left: 6px;
+  border-width: 2px 0 0 2px;
+}
+
+.reticle-corner-tr {
+  top: 6px;
+  right: 6px;
+  border-width: 2px 2px 0 0;
+}
+
+.reticle-corner-bl {
+  bottom: 6px;
+  left: 6px;
+  border-width: 0 0 2px 2px;
+}
+
+.reticle-corner-br {
+  bottom: 6px;
+  right: 6px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Technical Scanline Laser */
+@keyframes scanlineMove {
+  0% { top: 0%; opacity: 0.8; }
+  100% { top: 100%; opacity: 0.8; }
+}
+
+/* Badges with technical bracket styling */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.badge-mars, .badge-orange {
+  background: rgba(242, 100, 25, 0.12);
+  color: var(--color-mars);
+  border: 1px solid rgba(242, 100, 25, 0.4);
+}
+
+.badge-amber {
+  background: rgba(210, 153, 34, 0.12);
+  color: var(--color-amber);
+  border: 1px solid rgba(210, 153, 34, 0.4);
+}
+
+.badge-emerald, .badge-green {
+  background: rgba(35, 134, 54, 0.15);
+  color: var(--color-green-bright);
+  border: 1px solid rgba(35, 134, 54, 0.45);
+}
+
+.badge-cyan {
+  background: rgba(210, 153, 34, 0.12);
+  color: var(--color-amber);
+  border: 1px solid rgba(210, 153, 34, 0.4);
+}
+
+.badge-rose, .badge-red {
+  background: rgba(255, 113, 108, 0.12);
+  color: var(--color-error);
+  border: 1px solid rgba(255, 113, 108, 0.4);
+}
+
+.badge-neutral {
+  background: rgba(110, 118, 129, 0.15);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-structural);
+}
+
+/* Technical Instrumentation Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  border: 1px solid transparent;
+  outline: none;
+}
+
+.btn-primary {
+  background: var(--color-mars);
+  color: #090B0E;
+  border-color: var(--color-mars);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-mars-light);
+  border-color: var(--color-mars-light);
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--color-charcoal);
+  color: var(--text-primary);
+  border: 1px solid var(--border-structural);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-surface);
+  border-color: var(--color-mars);
+  color: #FFFFFF;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Custom Scrollbar for dense NASA terminal feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-obsidian);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-structural);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-mars);
+}
